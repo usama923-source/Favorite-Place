@@ -33,7 +33,7 @@ class PlacesList extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (ctx) => PlaceDetail(place: places[index]),
+              builder: (ctx) => PlaceDetail(place: places[index]), 
             ),
           );
         },

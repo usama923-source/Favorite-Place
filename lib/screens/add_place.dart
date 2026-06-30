@@ -1,4 +1,5 @@
 import 'package:favorite_place/providers/user_places.dart';
+import 'package:favorite_place/widgets/image_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,17 +13,16 @@ class AddPlaceScreen extends ConsumerStatefulWidget {
 class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
   final _titleController = TextEditingController();
 
+  void _savePlace() {
+    final enteredTitle = _titleController.text;
 
-void _savePlace(){
-  final enteredTitle = _titleController.text;
-
-  if(enteredTitle == null || enteredTitle.isEmpty){
-    return;
+    if (enteredTitle.isEmpty) {
+      return;
+    }
+    ref.read(userPlacesProvider.notifier).addPlace(enteredTitle);
+    Navigator.of(context).pop();
   }
-  ref.read(userPlacesProvider.notifier).addPlace(enteredTitle);
-  Navigator.of(context).pop();
-} 
- 
+
   @override
   void dispose() {
     _titleController.dispose();
@@ -40,12 +40,16 @@ void _savePlace(){
             TextField(
               decoration: InputDecoration(labelText: "Title"),
               controller: _titleController,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
             ),
+            // image input
             SizedBox(height: 10),
-            ElevatedButton.icon(onPressed: _savePlace, label: Text("Add Place")),
+            ImageInput(),
+            SizedBox(height: 10),
+            ElevatedButton.icon(
+              onPressed: _savePlace,
+              label: Text("Add Place"),
+            ),
           ],
         ),
       ),
